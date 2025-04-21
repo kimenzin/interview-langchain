@@ -4,10 +4,8 @@ from langchain.llms import OpenAI
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 import os
 
-# OpenAI 키는 os.environ["OPENAI_API_KEY"]로 Colab 외부에서 등록했다고 가정합니다.
 llm = OpenAI(temperature=0.7)
 
-# Few-shot 예제
 examples = [
     {"role": "개발자", "question": "협업 중 문제 해결 경험?", "answer": "Git 충돌 해결하며 커뮤니케이션 개선"},
     {"role": "UX 디자이너", "question": "사용자 피드백 개선 사례?", "answer": "로그인 버튼 위치 변경으로 이탈률 감소"},
@@ -37,17 +35,11 @@ def generate_interview_qa(role):
     response = llm(full_prompt)
     return output_parser.parse(response)
 
-# --------- UI 꾸미기 ---------
-
-# 페이지 설정
 st.set_page_config(page_title="AI 면접 생성기", page_icon="🎤", layout="centered")
-
-# 제목 & 설명
 st.markdown("<h1 style='text-align:center; color:#4CAF50;'>🎤 AI 면접 질문/답변 생성기</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align:center;'>직무에 맞는 인터뷰 질문과 답변을 AI가 자동으로 생성해드립니다.</p>", unsafe_allow_html=True)
 st.markdown("---")
 
-# 선택 옵션
 role_color = {
     "개발자": "#2196F3",
     "UX 디자이너": "#9C27B0",
@@ -57,12 +49,9 @@ role_color = {
 job_roles = ["개발자", "UX 디자이너", "기획자"]
 selected_role = st.selectbox("🧑‍💼 직무를 선택하세요", job_roles)
 
-# 생성 버튼
 if st.button("✨ 질문/답변 생성하기"):
     with st.spinner("AI가 열심히 고민 중입니다..."):
         result = generate_interview_qa(selected_role)
-
-        # 결과 출력
         st.markdown("---")
         st.markdown(
             f"<div style='background-color:{role_color[selected_role]}; padding:20px; border-radius:10px;'>"
