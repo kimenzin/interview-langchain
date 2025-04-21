@@ -1,4 +1,3 @@
-%%writefile app.py
 import streamlit as st
 from langchain.prompts import FewShotPromptTemplate, PromptTemplate
 from langchain.llms import OpenAI
